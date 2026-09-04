@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "836606223404",
+    "project_id": "sxopop-hub",
+    "storage_bucket": "sxopop-hub.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836606223404:android:afc098affce1abc9731d89",
+        "android_client_info": {
+          "package_name": "com.sxopop.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBByREFBEx6zd6hsiLrXTHXFWE1Jcm1NVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
