@@ -364,7 +364,7 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
         ),
         child: _hasImage
             ? Stack(children: [
-                Center(child: Icon(Icons.wb_sunny_rounded, color: Colors.white.withOpacity(0.6), size: 64)),
+                Center(child: Icon(Icons.wb_sunny_rounded, color: Colors.white.withValues(alpha: 0.6), size: 64)),
                 Positioned(
                   top: 8, right: 8,
                   child: GestureDetector(
@@ -486,7 +486,7 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
                 height: 52,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isSelected ? AppTheme.primary.withOpacity(0.2) : AppTheme.surfaceLight,
+                  color: isSelected ? AppTheme.primary.withValues(alpha: 0.2) : AppTheme.surfaceLight,
                   border: isSelected ? Border.all(color: AppTheme.primary, width: 2) : null,
                 ),
                 child: Center(child: Text(emojis[i], style: const TextStyle(fontSize: 26))),
@@ -545,8 +545,8 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppTheme.primary,
-            activeTrackColor: AppTheme.primary.withOpacity(0.3),
+            activeThumbColor: AppTheme.primary,
+            activeTrackColor: AppTheme.primary.withValues(alpha: 0.3),
           ),
         ],
       ),
