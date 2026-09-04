@@ -160,7 +160,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
                 Center(
                   child: Icon(
                     story.isOwn ? Icons.wb_sunny_rounded : Icons.local_cafe_rounded,
-                    color: Colors.white.withOpacity(0.6),
+                    color: Colors.white.withValues(alpha: 0.6),
                     size: 64,
                   ),
                 ),
@@ -170,7 +170,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
+                      color: Colors.black.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
