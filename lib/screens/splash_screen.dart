@@ -29,7 +29,10 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeIn,
     );
     _scaleAnim = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOutBack,
+      ),
     );
     _controller.forward();
     _checkAuthState();
@@ -50,7 +53,9 @@ class _SplashScreenState extends State<SplashScreen>
     } catch (e) {
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LoginScreen()),
+          MaterialPageRoute(
+            builder: (_) => const LoginScreen(),
+          ),
         );
       }
     }
@@ -114,4 +119,47 @@ class _SplashScreenState extends State<SplashScreen>
                                   color: Colors.white,
                                   fontSize: 60,
                                   fontWeight: FontWeight.w900,
-                                )
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'SXOPOP',
+                    style: TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 4,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Chat. Share. Connect.',
+                    style: TextStyle(
+                      color: AppTheme.textSecondary,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 48),
+                  const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: AppTheme.primary,
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
