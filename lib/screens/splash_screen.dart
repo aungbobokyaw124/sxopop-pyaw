@@ -5,7 +5,9 @@ import 'login_screen.dart';
 import 'main_shell.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key, required this.firebaseReady});
+
+  final Future<void> firebaseReady;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -13,52 +15,61 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fadeAnim;
-  late Animation<double> _scaleAnim;
+  late final AnimationController _controller;
+  late final Animation<double> _fadeAnim;
+  late final Animation<double> _scaleAnim;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    );
+      duration: const Duration(milliseconds: 700),
+    )..forward();
+
     _fadeAnim = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeIn,
     );
-    _scaleAnim = Tween<double>(begin: 0.8, end: 1.0).animate(
+    _scaleAnim = Tween<double>(begin: 0.86, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeOutBack,
       ),
     );
-    _controller.forward();
-    _checkAuthState();
+
+    _openNextScreen();
   }
 
-  Future<void> _checkAuthState() async {
-    await Future.delayed(const Duration(milliseconds: 1500));
-    if (!mounted) return;
+  Future<void> _openNextScreen() async {
+    // Never let Firebase/network startup trap the user on the splash screen.
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => user != null
-              ? const MainShell()
-              : const LoginScreen(),
-        ),
-      );
+      await widget.firebaseReady.timeout(const Duration(seconds: 8));
     } catch (e) {
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => const LoginScreen(),
-          ),
-        );
-      }
+      debugPrint('Firebase startup timeout/error: $e');
     }
+
+    // Keep the branded splash visible briefly, but always continue.
+    await Future.delayed(const Duration(milliseconds: 650));
+    if (!mounted) return;
+
+    Widget nextScreen = const LoginScreen();
+
+    try {
+      if (Firebase.apps.isNotEmpty) {
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          nextScreen = const MainShell();
+        }
+      }
+    } catch (e) {
+      debugPrint('Auth state check failed: $e');
+    }
+
+    if (!mounted) return;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => nextScreen),
+    );
   }
 
   @override
@@ -100,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: Image.asset(
-                        'assets/images/sxopop-logo.png',
+                        'assets/images/splash-logo.png',
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
